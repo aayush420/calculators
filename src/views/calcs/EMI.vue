@@ -27,9 +27,9 @@
 					<tr>
 						<th>Sr. No.</th>
 						<th>Month</th>
-						<th>EMI</th>
-						<th>Principal (% of total principal)</th>
-						<th>Interest (% of total interest)</th>
+						<th title="Color split indicates interest vs principal component">EMI</th>
+						<th>Principal (% of remaining principal)</th>
+						<th>Interest (% of remaining interest)</th>
 						<th>Balance Interest (% of total interest)</th>
 						<th>Balance Principal (% of total principal)</th>
 					</tr>
@@ -39,7 +39,7 @@
 					<tr v-for="m in sums" :key="m.sn">
 						<td>{{ m.sn }}</td>
 						<td>{{ m.month }} </td>
-						<td>{{ m.emi.toLocaleString('en-IN') }} </td>
+						<td :style="`background: linear-gradient(90deg, #03C03C 0%, #03C03C ${ m.principalCentOfEMI }%, #EF0107 ${ m.principalCentOfEMI }%, #EF0107 100%);color: white`" :title="`${m.principalCentOfEMI}% of this EMI is going towards the principal`">{{ m.emi.toLocaleString('en-IN') }} </td>
 						<td>{{ m.principal.toLocaleString('en-IN') }} ({{ m.currentPrincipalCent }}%) </td>
 						<td>{{ m.interest.toLocaleString('en-IN') }} ({{ m.currentInterestCent }}%) </td>
 						<td>{{ m.interestBalance.toLocaleString('en-IN') }} ({{ m.currentInterestBalanceCent }}%) </td>
@@ -87,6 +87,7 @@ export default defineComponent({
 					currentPrincipalCent: (100 * currentPrincipal/this.principal).toFixed(2),
 					currentInterestCent: (100 * currentInterest/this.totalInterest).toFixed(2),
 					interest: currentInterest,
+					principalCentOfEMI: (100 - (100 * currentInterest/this.emi)).toFixed(2),
 					principalBalance: principalBalance - currentPrincipal,
 					currentPrincipalBalanceCent: (100 * (principalBalance - currentPrincipal)/this.principal).toFixed(2),
 					interestBalance: interestBalance - currentInterest,
