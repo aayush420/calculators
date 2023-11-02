@@ -1,17 +1,21 @@
 <template>
-	<div class="emi">
+	<div class="p-4">
 		<div>
 			<h3>Inputs:</h3>
-			<div>
-				<input class="text-black" type="number" v-model="principal">
-			</div>
-			<div>
+			<div class="flex space-x-8">
 
-				<input class="text-black" type="number" v-model="annual_rate">
-			</div>
-			<div>
-
-				<input class="text-black" type="number" v-model="tenure_years">
+				<div>
+					<label for="principalInput">Principal Amount</label>
+					<input id="principalInput" class="w-full px-3 py-1 bg-gray-50 border border-gray-300 rounded" type="number" v-model="principal">
+				</div>
+				<div>
+					<label for="rateInput">Annual rate of interest</label>
+					<input id="rateInput" class="w-full px-3 py-1 bg-gray-50 border border-gray-300 rounded" type="number"  v-model="annual_rate">
+				</div>
+				<div>
+					<label for="tenure">Tenure in years</label>
+					<input id="tenure" class="w-full px-3 py-1 bg-gray-50 border border-gray-300 rounded" type="number" v-model="tenure_years">
+				</div>
 			</div>
 		</div>
 		<div>
@@ -65,11 +69,13 @@ export default defineComponent({
 			const p = this.principal;
 			return Math.round(p * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1 ));
 		},
+		totalInterest() {
+			return (this.emi * 12 * this.tenure_years) - this.principal;
+		},
 		sums() {
 			const months = [];
 			let principalBalance = this.principal;
-			const totalInterest = (this.emi * 12 * this.tenure_years) - this.principal;
-			let interestBalance = totalInterest;
+			let interestBalance = this.totalInterest;
 			for (let m = 0; m < 12 * this.tenure_years; m++) {
 				const currentInterest = Math.round(principalBalance * this.annual_rate / 1200);
 				const currentPrincipal = Math.round(this.emi - currentInterest);
@@ -79,12 +85,12 @@ export default defineComponent({
 					emi: this.emi,
 					principal: currentPrincipal,
 					currentPrincipalCent: (100 * currentPrincipal/this.principal).toFixed(2),
-					currentInterestCent: (100 * currentInterest/totalInterest).toFixed(2),
+					currentInterestCent: (100 * currentInterest/this.totalInterest).toFixed(2),
 					interest: currentInterest,
 					principalBalance: principalBalance - currentPrincipal,
 					currentPrincipalBalanceCent: (100 * (principalBalance - currentPrincipal)/this.principal).toFixed(2),
 					interestBalance: interestBalance - currentInterest,
-					currentInterestBalanceCent: (100 * (interestBalance - currentInterest)/totalInterest).toFixed(2),
+					currentInterestBalanceCent: (100 * (interestBalance - currentInterest)/this.totalInterest).toFixed(2),
 				});
 				principalBalance -= currentPrincipal;
 				interestBalance -= currentInterest;
@@ -101,9 +107,12 @@ table {
 	@apply text-center;
 }
 table thead tr th {
-	@apply border border-slate-600 p-2;
+	@apply border border-slate-600 p-2 bg-slate-50;
 }
 table tbody tr td {
 	@apply border border-slate-700 p-2;
+}
+table tbody tr:nth-child(12n) {
+	@apply bg-slate-200;
 }
 </style>
