@@ -4,15 +4,15 @@
 			<h3>Inputs:</h3>
 			<div class="flex space-x-8">
 
-				<div>
-					<label for="principalInput">Principal Amount</label>
+				<div title="Amount of money you're borrowing">
+					<label for="principalInput">Principal Amount </label>
 					<input id="principalInput" class="w-full px-3 py-1 bg-gray-50 border border-gray-300 rounded" type="number" v-model="principal">
 				</div>
-				<div>
+				<div title="12 * Monthly interest rate percentage">
 					<label for="rateInput">Annual rate of interest</label>
 					<input id="rateInput" class="w-full px-3 py-1 bg-gray-50 border border-gray-300 rounded" type="number"  v-model="annual_rate">
 				</div>
-				<div>
+				<div title="Number of years that you would like to pay the loan for">
 					<label for="tenure">Tenure in years</label>
 					<input id="tenure" class="w-full px-3 py-1 bg-gray-50 border border-gray-300 rounded" type="number" v-model="tenure_years">
 				</div>
@@ -20,11 +20,10 @@
 		</div>
 		<div>
 			<h3>Outputs:</h3>
-			<div class="flex space-x-8">
+			<div class="">
 
-				<span>EMI: {{emi}}</span>
-				<span>Total Interest: {{ totalInterest.toLocaleString('en-IN') }}</span>
-				<span>Interest is {{ (totalInterest/principal).toFixed(2) }} times of total principal </span>
+				<div>EMI: {{emi}}</div>
+				<div>For the loan amount of <span class="font-bold text-xl text-red-900">{{ principal.toLocaleString('en-IN') }}</span>, you will end up paying <span class="font-bold text-xl text-red-900">{{ (totalInterest + principal).toLocaleString('en-IN') }}</span> in the span of {{ tenure_years }} years. Out of this, <span class="font-bold text-xl text-red-900">{{  totalInterest.toLocaleString('en-IN') }}</span> will be paid towards the interest, which means you will have paid an interest that's <span class="font-bold text-xl text-red-900">{{ (totalInterest/principal).toFixed(2) }}</span> times the principal and is  <span class="font-bold text-xl text-red-900">{{ Math.round(totalInterest * 100 / (totalInterest + principal)) }}%</span> of total amount paid. </div>
 			</div>
 			<table class="table-auto border-collapse border">
 				<thead>
