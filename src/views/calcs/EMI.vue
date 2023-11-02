@@ -20,7 +20,12 @@
 		</div>
 		<div>
 			<h3>Outputs:</h3>
-			<p>EMI: {{emi}}</p>
+			<div class="flex space-x-8">
+
+				<span>EMI: {{emi}}</span>
+				<span>Total Interest: {{ totalInterest.toLocaleString('en-IN') }}</span>
+				<span>Interest is {{ (totalInterest/principal).toFixed(2) }} times of total principal </span>
+			</div>
 			<table class="table-auto border-collapse border">
 				<thead>
 
