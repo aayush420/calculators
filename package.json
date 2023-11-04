@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
+    "cp-gh-404": "cd dist && cp index.html 404.html && cd ..",
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:e2e": "playwright test",
