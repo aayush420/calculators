@@ -120,7 +120,7 @@ export default defineComponent({
 			let interestBalance = this.totalInterest;
 			for (let m = 0; m < 12 * this.tenure_years; m++) {
 				const currentInterest = Math.round(principalBalance * this.annual_rate / 1200);
-				const currentPrincipal = Math.round(this.emi - currentInterest) + this.extra_prepayments[m];
+				const currentPrincipal = Math.round(this.emi - currentInterest) + Number(this.extra_prepayments[m]);
 				months.push({
 					sn: m + 1,
 					month: `${Math.floor(m / 12) + 1}Y ${(m % 12) + 1}M`,
@@ -144,10 +144,10 @@ export default defineComponent({
 			return this.sums.find(m => m.principalBalance < 0)
 		},
 		totalPrepaid() {
-			return this.extra_prepayments.slice(0, this.closingMonthStats?.sn).reduce((a, c) => a + c, 0)
+			return this.extra_prepayments.slice(0, this.closingMonthStats?.sn).reduce((a, c) => a + Number(c), 0)
 		},
 		totalInterestPaidWithPrepayments() {
-			return this.sums.slice(0, this.closingMonthStats?.sn).reduce((a, c) => a + c.emi + this.extra_prepayments[c.sn - 1], 0) - this.principal;
+			return this.sums.slice(0, this.closingMonthStats?.sn).reduce((a, c) => a + c.emi + Number(this.extra_prepayments[c.sn - 1]), 0) - this.principal;
 		},
 		totalInterestWithPrepayments() {
 			return this.sums.slice(0, this.closingMonthStats?.sn).reduce((a, c) => a + c.principal + c.interest, 0) + - this.principal;
